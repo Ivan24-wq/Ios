@@ -5,26 +5,23 @@ workflows:
     environment:
       xcode: latest
     scripts:
-      - name: Install .NET 9 SDK via Homebrew
+      - name: Install .NET 8 SDK via Homebrew
         script: |
           brew update
-          brew install dotnet@9
-          export DOTNET_ROOT=/opt/homebrew/opt/dotnet@9/libexec
+          brew install --cask dotnet-sdk8
+          export DOTNET_ROOT=/usr/local/share/dotnet
           export PATH=$DOTNET_ROOT:$PATH
           dotnet --info
       - name: Install MAUI workloads
         script: |
-          dotnet workload update
-          dotnet workload install maui maui-ios maui-maccatalyst \
-            --source https://api.nuget.org/v3/index.json \
-            --source https://aka.ms/dotnet9/nuget/index.json
+          dotnet workload install maui maui-ios maui-maccatalyst
       - name: Restore NuGet packages
         script: |
           dotnet restore YourList.csproj
       - name: Build unsigned IPA
         script: |
           dotnet publish YourList.csproj \
-            -f net9.0-ios \
+            -f net8.0-ios \
             -c Release \
             -o ./output/ios \
             /p:BuildIpa=true \
