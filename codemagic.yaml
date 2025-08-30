@@ -14,7 +14,10 @@ workflows:
           dotnet --info
       - name: Install MAUI workloads
         script: |
-          dotnet workload install maui-ios
+          dotnet workload update
+          dotnet workload install maui maui-ios maui-maccatalyst \
+            --source https://api.nuget.org/v3/index.json \
+            --source https://aka.ms/dotnet9/nuget/index.json
       - name: Restore NuGet packages
         script: |
           dotnet restore YourList.csproj
