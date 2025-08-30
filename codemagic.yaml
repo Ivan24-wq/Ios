@@ -1,0 +1,28 @@
+workflows:
+  ios-unsigned:
+    name: Build unsigned iOS IPA (.NET MAUI)
+    max_build_duration: 60
+    environment:
+      vars:
+        DOTNET_VERSION: 9.0.100
+      sdk: dotnet
+      xcode: latest
+    scripts:
+      - name: Install .NET
+        script: |
+          dotnet --version
+          dotnet workload install maui-ios
+      - name: Restore NuGet packages
+        script: |
+          dotnet restore YourList.csproj
+      - name: Build unsigned IPA
+        script: |
+          dotnet publish YourList.csproj \
+            -f net9.0-ios \
+            -c Release \
+            -o ./output/ios \
+            /p:BuildIpa=true \
+            /p:EnableCodeSigning=false \
+            /p:RuntimeIdentifier=ios-arm64
+    artifacts:
+      - output/ios/**/*.ipa
