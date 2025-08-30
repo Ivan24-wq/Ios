@@ -5,14 +5,13 @@ workflows:
     environment:
       xcode: latest
     scripts:
-      - name: Install .NET 9 SDK
+      - name: Install .NET 9 SDK via Homebrew
         script: |
-          wget https://download.visualstudio.microsoft.com/download/pr/3ef99172-8c1e-4f69-b3a8-4db5a6a4d3f1/1db0f47e87b2c1fc2f29b93b25bb8324/dotnet-sdk-9.0.100-osx-arm64.tar.gz -O dotnet.tar.gz
-          sudo mkdir -p /usr/share/dotnet
-          sudo tar -zxf dotnet.tar.gz -C /usr/share/dotnet
-          export DOTNET_ROOT=/usr/share/dotnet
+          brew update
+          brew install dotnet@9
+          export DOTNET_ROOT=/opt/homebrew/opt/dotnet@9/libexec
           export PATH=$DOTNET_ROOT:$PATH
-          dotnet --version
+          dotnet --info
       - name: Install MAUI workloads
         script: |
           dotnet workload install maui-ios
