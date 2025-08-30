@@ -12,9 +12,10 @@ workflows:
           export DOTNET_ROOT=/usr/local/share/dotnet
           export PATH=$DOTNET_ROOT:$PATH
           dotnet --info
-      - name: Install MAUI workloads
+      - name: Install MAUI workloads (user-wide)
         script: |
-          dotnet workload install maui maui-ios maui-maccatalyst
+          export DOTNET_CLI_HOME=$HOME
+          dotnet workload install maui maui-ios maui-maccatalyst --skip-manifest-update
       - name: Restore NuGet packages
         script: |
           dotnet restore YourList.csproj
